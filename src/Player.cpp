@@ -20,24 +20,31 @@ Player::~Player()
 
 void Player::control(const sf::Event& event)
 {
+	const float pi = 3.14159;
+	float angle0 = sprite.getRotation();
+	float angle = angle0*pi/180;
+
 	if (number == 1)
 	{
+		float omega = 10;
 		switch (event.type)
 		{
 			case sf::Event::KeyPressed:
 				switch (event.key.code)
 				{
 					case sf::Keyboard::A:
-						pressingA = true;
+						sprite.rotate(-omega);
 						break;
 					case sf::Keyboard::D:
-						pressingD = true;
+						sprite.rotate(omega);
 						break;
 					case sf::Keyboard::W:
-						pressingW = true;
+						vx = MAX_V*sin(angle);
+						vy = -MAX_V*cos(angle);
 						break;
 					case sf::Keyboard::S:
-						pressingS = true;
+						vx = -MAX_V*sin(angle);
+						vy = MAX_V*cos(angle);
 						break;
 					default:
 						break;
@@ -47,16 +54,18 @@ void Player::control(const sf::Event& event)
 				switch (event.key.code)
 				{
 					case sf::Keyboard::A:
-						pressingA = false;
+
 						break;
 					case sf::Keyboard::D:
-						pressingD = false;
+
 						break;
 					case sf::Keyboard::W:
-						pressingW = false;
+						vx=0;
+						vy=0;
 						break;
 					case sf::Keyboard::S:
-						pressingS = false;
+						vx=0;
+						vy=0;
 						break;
 					default:
 						break;
@@ -68,22 +77,25 @@ void Player::control(const sf::Event& event)
 	}
 	else if (number == 2)
 	{
+		float omega = 0.1;
 		switch (event.type)
 		{
 			case sf::Event::KeyPressed:
 				switch (event.key.code)
 				{
 					case sf::Keyboard::Left:
-						pressingA = true;
+						sprite.rotate(-omega);
 						break;
 					case sf::Keyboard::Right:
-						pressingD = true;
+						sprite.rotate(omega);
 						break;
 					case sf::Keyboard::Up:
-						pressingW = true;
+						vx = MAX_V*sin(angle);
+						vy = -MAX_V*cos(angle);
 						break;
 					case sf::Keyboard::Down:
-						pressingS = true;
+						vx = -MAX_V*sin(angle);
+						vy = MAX_V*cos(angle);
 						break;
 					default:
 						break;
@@ -93,16 +105,18 @@ void Player::control(const sf::Event& event)
 				switch (event.key.code)
 				{
 					case sf::Keyboard::Left:
-						pressingA = false;
+
 						break;
 					case sf::Keyboard::Right:
-						pressingD = false;
+
 						break;
 					case sf::Keyboard::Up:
-						pressingW = false;
+						vx=0;
+						vy=0;
 						break;
 					case sf::Keyboard::Down:
-						pressingS = false;
+						vx=0;
+						vy=0;
 						break;
 
 					default:
@@ -113,15 +127,7 @@ void Player::control(const sf::Event& event)
 				break;
 		}
 	}
-	vx = vy = 0;
-	if (pressingA)
-		vx -= Player::MAX_V;
-	if (pressingD)
-		vx += Player::MAX_V;
-	if (pressingW)
-		vy -= Player::MAX_V;
-	if (pressingS)
-		vy += Player::MAX_V;
+
 }
 
 void Player::checkBorder()
